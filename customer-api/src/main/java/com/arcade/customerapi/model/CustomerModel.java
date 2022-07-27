@@ -13,6 +13,10 @@ public class CustomerModel {
     private String email;
     private Integer number;
 
+    public CustomerModel() {
+
+    }
+
     public CustomerModel(String name, String email, Integer number) {
         this.name = name;
         this.email = email;
