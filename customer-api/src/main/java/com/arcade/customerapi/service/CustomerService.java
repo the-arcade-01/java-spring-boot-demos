@@ -16,19 +16,19 @@ public class CustomerService {
         this.repository = repository;
     }
 
-    List<CustomerModel> getAllCustomerList() {
+    public List<CustomerModel> getAllCustomerList() {
         return repository.findAll();
     }
 
-    CustomerModel getCustomer(Long id) throws Exception {
+    public CustomerModel getCustomer(Long id) throws Exception {
         return repository.findById(id).orElseThrow(() -> new Exception("Customer not found"));
     }
 
-    CustomerModel addCustomer(CustomerModel customer) {
+    public CustomerModel addCustomer(CustomerModel customer) {
         return repository.save(customer);
     }
 
-    CustomerModel updateCustomer(CustomerModel updateCustomer, Long id) throws Exception {
+    public CustomerModel updateCustomer(CustomerModel updateCustomer, Long id) throws Exception {
         return repository.findById(id).map((customer) -> {
             customer.setName(updateCustomer.getName());
             customer.setEmail(updateCustomer.getEmail());
@@ -38,12 +38,12 @@ public class CustomerService {
         }).orElseThrow(() -> new Exception("Customer not found with ID: " + id));
     }
 
-    String deleteCustomer(Long id) {
+    public String deleteCustomer(Long id) {
         repository.deleteById(id);
         return String.format("Customer deleted with Id: " + id);
     }
 
-    String deleteAll() {
+    public String deleteAll() {
         repository.deleteAll();
         return "All Customers deleted";
     }
