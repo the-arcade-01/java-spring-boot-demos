@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobCompletionNotificationListener.class);
+    private static final Logger log = LoggerFactory.getLogger(JobCompletionNotificationListener.class);
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -24,12 +24,13 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
     @Override
     public void afterJob(JobExecution jobExecution) {
         if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
-            LOGGER.info("JOB COMPLETED");
+            log.info("JOB COMPLETED");
 
-            String query = "SELECT firstname, place, team FROM employee";
-            jdbcTemplate.query(query, (rs, row) -> new EmployeeModel(rs.getString(1), rs.getString(2), rs.getString(3)))
-                    .forEach(employee -> LOGGER.info("Found < {} > in the database.", employee));
+            jdbcTemplate.query("SELECT firstname, place, team FROM employee",
+                    (rs, row) -> new EmployeeModel(
+                            rs.getString(1),
+                            rs.getString(2), rs.getString(3)))
+                    .forEach(employeeVal -> log.info("Found <" + employeeVal + "> in the database."));
         }
     }
-
 }

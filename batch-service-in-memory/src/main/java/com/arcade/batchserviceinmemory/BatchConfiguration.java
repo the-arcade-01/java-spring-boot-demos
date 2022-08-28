@@ -15,11 +15,11 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
+// tag::setup[]
 @Configuration
 @EnableBatchProcessing
 public class BatchConfiguration {
@@ -29,9 +29,23 @@ public class BatchConfiguration {
 
     @Autowired
     public StepBuilderFactory stepBuilderFactory;
+    // end::setup[]
 
-    @Value("${file.input}")
-    private String fileInput;
+    // tag::readerwriterprocessor[]
+    @Bean
+    public FlatFileItemReader<EmployeeModel> reader() {
+        return new FlatFileItemReaderBuilder<EmployeeModel>()
+                .name("personItemReader")
+                .resource(new ClassPathResource("sample-data.csv"))
+                .delimited()
+                .names(new String[] { "firstname", "place", "team" })
+                .fieldSetMapper(new BeanWrapperFieldSetMapper<EmployeeModel>() {
+                    {
+                        setTargetType(EmployeeModel.class);
+                    }
+                })
+                .build();
+    }
 
     @Bean
     public EmployeeItemProcessor processor() {
@@ -39,35 +53,34 @@ public class BatchConfiguration {
     }
 
     @Bean
-    public FlatFileItemReader<EmployeeModel> reader() {
-        return new FlatFileItemReaderBuilder<EmployeeModel>().name("EmployeeItemReader")
-                .resource(new ClassPathResource(fileInput))
-                .delimited().names(new String[] { "firstname", "place", "team" })
-                .fieldSetMapper(new BeanWrapperFieldSetMapper<>() {
-                    {
-                        setTargetType(EmployeeModel.class);
-                    }
-                }).build();
-    }
-
-    @Bean
     public JdbcBatchItemWriter<EmployeeModel> writer(DataSource dataSource) {
         return new JdbcBatchItemWriterBuilder<EmployeeModel>()
-                .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
+                .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<EmployeeModel>())
                 .sql("INSERT INTO employee (firstname, place, team) VALUES (:firstname, :place, :team)")
                 .dataSource(dataSource)
                 .build();
     }
+    // end::readerwriterprocessor[]
 
+    // tag::jobstep[]
     @Bean
     public Job importUserJob(JobCompletionNotificationListener listener, Step step1) {
-        return jobBuilderFactory.get("importUserJob").incrementer(new RunIdIncrementer()).listener(listener).flow(step1)
-                .end().build();
+        return jobBuilderFactory.get("importUserJob")
+                .incrementer(new RunIdIncrementer())
+                .listener(listener)
+                .flow(step1)
+                .end()
+                .build();
     }
 
     @Bean
     public Step step1(JdbcBatchItemWriter<EmployeeModel> writer) {
-        return stepBuilderFactory.get("step1").<EmployeeModel, EmployeeModel>chunk(10).reader(reader())
-                .processor(processor()).writer(writer).build();
+        return stepBuilderFactory.get("step1")
+                .<EmployeeModel, EmployeeModel>chunk(10)
+                .reader(reader())
+                .processor(processor())
+                .writer(writer)
+                .build();
     }
+    // end::jobstep[]
 }

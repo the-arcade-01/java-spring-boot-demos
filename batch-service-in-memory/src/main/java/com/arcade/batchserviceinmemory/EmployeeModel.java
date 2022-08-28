@@ -5,6 +5,10 @@ public class EmployeeModel {
     private String place;
     private String team;
 
+    public EmployeeModel() {
+        
+    }
+
     public EmployeeModel(String firstname, String place, String team) {
         this.firstname = firstname;
         this.place = place;
