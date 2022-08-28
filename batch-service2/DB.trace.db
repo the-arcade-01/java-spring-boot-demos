@@ -1,0 +1,6 @@
+2022-08-28 23:44:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BATCH_JOB_INSTANCE" not found (this database is empty); SQL statement:
+SELECT * FROM table WHERE time >= str_to_date('2019-02-01 10:59:12.632 ', '%Y-%m-%d %T.%f') 
+      AND time <=  str_to_date( '2019-04-12 10:59:12.632 ' , '%Y-%m-%d %T.%f') 2022-08-28 23:45:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BATCH_JOB_INSTANCE" not found (this database is empty); SQL statement:
+SELECT JOB_INSTANCE_ID, JOB_NAME from BATCH_JOB_INSTANCE where JOB_NAME = ? and JOB_KEY = ? [42104-214]
