@@ -1,0 +1,28 @@
+{
+  "id": 1473,
+  "first_name": "Rocky",
+  "last_name": "Auer",
+  "username": "rocky.auer",
+  "email": "rocky.auer@email.com",
+  "avatar": "https://robohash.org/utvoluptasvoluptatem.png?size=300x300&set=set1",
+  "gender": "Non-binary",
+  "phone_number": "+51 (423) 568-6863",
+  "social_insurance_number": "669266223",
+  "date_of_birth": "1992-08-07",
+  "employment": {
+    "title": "Forward Supervisor",
+    "key_skill": "Self-motivated"
+  },
+  "address": {
+    "city": "O'Connellborough",
+    "street_name": "Kermit Hills",
+    "street_address": "500 Ryan Parkways",
+    "zip_code": "15165-3542",
+    "state": "Delaware",
+    "country": "United States",
+    "coordinates": {
+      "lat": -14.980330173076936,
+      "lng": 89.30347561670806
+    }
+  }
+}
