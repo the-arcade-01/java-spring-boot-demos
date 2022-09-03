@@ -10,7 +10,7 @@ public class EmployeeItemProcessor implements ItemProcessor<EmployeeModel, Emplo
 
     @Override
     public EmployeeModel process(final EmployeeModel employee) throws Exception {
-        String company = new String("Paytm Money");
+        String company = new String("Company");
         String firstname = employee.getFirstname().toUpperCase();
         String place = employee.getPlace().toUpperCase();
         String team = company + employee.getTeam().toUpperCase();
