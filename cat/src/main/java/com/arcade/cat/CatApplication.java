@@ -1,13 +1,13 @@
-package com.arcade.openapi;
+package com.arcade.cat;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OpenapiApplication {
+public class CatApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OpenapiApplication.class, args);
+		SpringApplication.run(CatApplication.class, args);
 	}
 
 }

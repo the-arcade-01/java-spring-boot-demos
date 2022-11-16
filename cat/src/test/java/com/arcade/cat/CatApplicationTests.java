@@ -1,10 +1,10 @@
-package com.arcade.openapi;
+package com.arcade.cat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class OpenapiApplicationTests {
+class CatApplicationTests {
 
 	@Test
 	void contextLoads() {
